@@ -32,12 +32,14 @@ public_users.post("/register", (req, res) => {
 
 // Task 10: Get the book list available in the shop using Axios
 public_users.get('/', function (req, res) {
-    axios.get(`${BASE_URL}/books-internal`)
+    axios.get("http://localhost:5000/")
         .then(response => {
-            res.status(200).send(JSON.stringify(response.data, null, 4));
+            return res.status(200).json(response.data);
         })
         .catch(error => {
-            res.status(500).json({ message: "Error fetching book list via Axios", error: error.message });
+            return res.status(500).json({
+                message: error.message
+            });
         });
 });
 
@@ -45,13 +47,13 @@ public_users.get('/', function (req, res) {
 // Task 11: Get book details based on ISBN using Axios
 public_users.get('/isbn/:isbn', function (req, res) {
     const isbn = req.params.isbn;
-    axios.get(`${BASE_URL}/books-internal`)
+    axios.get("http://localhost:5000/")
         .then(response => {
             const book = response.data[isbn];
             if (book) {
-                res.status(200).send(book);
+                return res.status(200).json(book);
             } else {
-                res.status(404).json({ message: "Book not found" });
+                return res.status(404).json({ message: "Book not found" });
             }
         })
         .catch(error => {
@@ -63,7 +65,7 @@ public_users.get('/isbn/:isbn', function (req, res) {
 // Task 12: Get book details based on author using Axios
 public_users.get('/author/:author', function (req, res) {
     const author = req.params.author;
-    axios.get(`${BASE_URL}/books-internal`)
+    axios.get("http://localhost:5000/")
         .then(response => {
             const keys = Object.keys(response.data);
             let filtered_books = [];
@@ -89,7 +91,7 @@ public_users.get('/author/:author', function (req, res) {
 // Task 13: Get all books based on title using Axios
 public_users.get('/title/:title', function (req, res) {
     const title = req.params.title;
-    axios.get(`${BASE_URL}/books-internal`)
+    axios.get("http://localhost:5000/")
         .then(response => {
             const keys = Object.keys(response.data);
             let filtered_books = [];
